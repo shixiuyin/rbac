@@ -57,7 +57,7 @@ public class UserDao extends BaseDao {
      * 查询user列表
      * @return
      */
-    public List<Object> findUserListByPage() {
+    public List<Object> findUserListByPage(Integer page,Integer limit) {
 
         List<Object> list = new ArrayList<>();
 
@@ -65,10 +65,13 @@ public class UserDao extends BaseDao {
         PreparedStatement statement = null;
         ResultSet rs = null;
 
-        String sql  = "SELECT * FROM sys_user";
+        String sql  = "SELECT * FROM sys_user LIMIT ? ,?";
 
         try {
             statement = connection.prepareStatement(sql);
+
+            statement.setInt(1,(page-1)*limit);
+            statement.setInt(2,limit);
 
             rs = statement.executeQuery();
             while(rs.next())
@@ -136,5 +139,43 @@ public class UserDao extends BaseDao {
         String sql = "INSERT INTO sys_user(user_id,login_name,login_pwd,user_name,status,email,address,remark) values(?,?,?,?,?,?,?,?)";
         int row = baseExecuteUpdate(sql, user.getUserId(), user.getLoginName(), user.getLoginPwd(), user.getUserName(), user.getStatus(), user.getEmail(), user.getAddress(), user.getRemark());
         return  row;
+    }
+
+    /**
+     * 根据ID删除
+     * @param userIds
+     * @return
+     */
+    public int delUserById(String[] userIds) {
+
+        //拼接字符串
+        String where = "";
+        for (int i = 0;i<userIds.length;i++)
+        {
+            if(i==userIds.length-1){
+                where = where+"?";
+            }else
+            {
+                where = where+"?,";
+            }
+        }
+        //拼接sql
+        String sql = "DELETE FROM sys_user WHERE user_id in("+where+")";
+        System.out.println("delete_sql:"+sql);
+
+        //调用删除的方法
+        int row = baseExecuteUpdate(sql, userIds);
+
+        return row;
+    }
+
+    /**
+     * 根据用户ID  修改用户的状态
+     * @param userId
+     * @return
+     */
+    public int stopAccount(String userId) {
+        String sql = "UPDATE sys_user SET status=1 WHERE user_id=?";
+        return  baseExecuteUpdate(sql,userId);
     }
 }

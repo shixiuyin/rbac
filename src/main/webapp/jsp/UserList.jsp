@@ -40,7 +40,7 @@
 </div>
 
 <!-- 表格 -->
-<div id="dateTable"></div>
+<div id="dateTable"  lay-filter="dateTable"></div>
 
 <!--添加用户-->
 <form class="layui-form layui-form-pane" action="" hidden="hidden" id="adduser_form">
@@ -64,7 +64,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input type="password" name="password" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="password" name="loginPwd" required="required" lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
@@ -76,63 +76,44 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">邮箱地址</label>
+        <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
             <input type="email" name="email" required="required" lay-verify="required" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">请选择地址</label>
-        <div class="layui-input-inline">
-            <select name="quiz1">
-                <option value="">请选择省</option>
-                <option value="浙江" selected="">浙江省</option>
-                <option value="你的工号">江西省</option>
-                <option value="你最喜欢的老师">福建省</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select name="quiz2">
-                <option value="">请选择市</option>
-                <option value="杭州">杭州</option>
-                <option value="宁波" disabled="">宁波</option>
-                <option value="温州">温州</option>
-                <option value="温州">台州</option>
-                <option value="温州">绍兴</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
-            <select name="quiz3">
-                <option value="">请选择县/区</option>
-                <option value="西湖区">西湖区</option>
-                <option value="余杭区">余杭区</option>
-                <option value="拱墅区">临安市</option>
-            </select>
+        <label class="layui-form-label">地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="address" required="required" lay-verify="required" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">状态</label>
         <div class="layui-input-inline">
-            <input type="checkbox" name="zzz" lay-skin="switch" lay-text="激活|未激" class="layui-btn-lg">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="激活|未激" class="layui-btn-lg">
         </div>
     </div>
 
 
     <div class="layui-form-item layui-form-text">
         <div class="layui-input-block">
-            <textarea placeholder="请输入备注" class="layui-textarea"></textarea>
+            <textarea placeholder="请输入备注" name="remark" class="layui-textarea"></textarea>
+
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
-        <div class="layui-input-block">
-            <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="demo2">确认添加</button>
+        <div class="layui-input-block layui-col-lg-offset5">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="formDemo" id="submit_add">确认添加</button>
+
         </div>
     </div>
 
 
 
 </form>
+
+
 
 <script type="text/javascript" src="../frame/layui/layui.js"></script>
 <script type="text/javascript" src="../js/index.js"></script>
@@ -145,7 +126,15 @@
             table = layui.table,
             layer = layui.layer,
             vipTable = layui.vip_table,
-            $ = layui.jquery;
+            $ = layui.jquery,
+            active ={
+                getCheckData: function(){ //获取选中数据
+                    var checkStatus = table.checkStatus('idTest')
+                        ,data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                }
+            };
+
 
         // 表格渲染
         var tableIns = table.render({
@@ -163,7 +152,7 @@
                     }, {
                     field: 'userId',
                     title: 'ID',
-                    width: 180
+                    width: 200
                 }, {
                     field: 'loginName',
                     title: '登录名',
@@ -175,15 +164,16 @@
                 }, {
                     field: 'email',
                     title: '邮箱',
-                    width: 120
+                    width: 150
                 }, {
                     field: 'address',
                     title: '地址',
-                    width: 180
+                    width: 150
                 }, {
                     field: 'status',
                     title: '状态',
-                    width: 70
+                    width: 80,
+                    templet: '#titleTpl'
                 },{
                     field: 'remark',
                     title: '备注',
@@ -232,19 +222,125 @@
             tableIns.reload();
         });
 
-        //添加 批量删除
+        //添加
         $('#btn-add').on('click', function() {
 
             layer.open({
-
                 type: 1,
                 content: $("#adduser_form"),
                 area: ['750px', '470px']
             });
+        });
+        $("#submit_add").on('click',function () {
 
+            //alert("----");
+            $.post("${pageContext.request.contextPath}/addUserServletAjax",$("#adduser_form").serialize(),function (reslut) {
+
+                layer.msg(reslut);
+
+            });
         });
 
-        // you code ...
+
+
+        //批量删除
+        $("#btn-delete-all").on('click',function () {
+            //获取所有选中的数据
+            var checkStatus = table.checkStatus('dataCheck');
+            var array =  checkStatus.data; //获取选中的数据
+
+            if(array.length<=0) //如果没有数据被选中 提示需要选中数据
+            {
+                layer.msg("请选择需要删除的数据!!");
+                return;
+            }
+            layer.confirm('是否删除?', {icon: 3, title:'提示'}, function(index){
+                //只需要获取id即可：传参到数据库  http://localhsot:8080/sss?userId=0&userId=1
+                //封装参数格式：userId=0&userId=1
+                var ids = "";
+                for(var i=0;i<array.length;i++)
+                {
+                    if(i==(array.length-1)){
+                        ids = ids+"userId="+array[i].userId;
+                    }else{
+                        ids = ids+"userId="+array[i].userId+"&";
+                    }
+                }
+                //2.通过 ajax将id传给服务器
+                $.get("${pageContext.request.contextPath}/DelUserServlet?"+ids,function (result) {
+                   if(result>0)
+                   {
+                       layer.open({
+                           title: '成功'
+                           ,content: '删除成功!!'
+                       });
+                       //刷新表格
+                       tableIns.reload();
+
+                   }else{
+                       layer.open({
+                           title: '异常信息'
+                           ,content: '删除失败!!'
+                       });
+                   }
+                });
+                console.log(ids);
+                layer.close(index);
+            });
+
+        })
+
+
+
+        //静态状态
+        table.on('tool(dateTable)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if(layEvent === 'edit'){ //修改
+                //do somehing
+            } else if(layEvent === 'stop'){ //禁用
+                layer.confirm('真的要禁用该账户么', function(index){
+
+                    if(data.status==1)
+                    {
+                        layer.msg("该用户已经被禁用！！！")
+                        return;
+                    }
+
+                    //开启ajax请求 禁用
+                    $.get("${pageContext.request.contextPath}/stopAccountServlet?userId="+data.userId,function (reslut) {
+
+
+                        if(reslut>0)
+                        {
+                            obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                            tableIns.reload(); //重载数据
+                            /*obj.update({
+                                status: 1
+                            });*/
+                        }
+
+                    });
+
+
+
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+            } else if(layEvent === 'editRole'){ //编辑
+                //do something
+
+                //同步更新缓存对应的值
+                obj.update({
+                    username: '123'
+                    ,title: 'xxx'
+                });
+            }
+        });
+
+
 
     });
 </script>
@@ -252,7 +348,16 @@
 <script type="text/html" id="barOption">
     <a class="layui-btn layui-btn-mini" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="stop">停用</a>
-    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="editRole">修改权限</a>
+    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="editRole">分配角色</a>
+</script>
+
+<%--转换状态--%>
+<script type="text/html" id="titleTpl">
+    {{#  if(d.status == 0){ }}
+    <a class="layui-btn layui-btn-mini">激活</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-mini layui-bg-gray">未激活</a>
+    {{#  } }}
 </script>
 </body>
 

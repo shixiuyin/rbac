@@ -24,13 +24,17 @@ public class FindUserListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //尝试分页  默认传入 page   limit 需要根据这两个返回对应范围的值
-
         request.setCharacterEncoding("utf-8");
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
+
+        Integer page = Integer.parseInt(request.getParameter("page"));
+        Integer limit = Integer.parseInt(request.getParameter("limit"));
+
+
         //1.得到数据库所有的数据
         UserDao userDao = new UserDao();
-        List<Object> userList = userDao.findUserListByPage();
+        List<Object> userList = userDao.findUserListByPage(page,limit);
 
         //得到总数量
         Integer count = userDao.getUserCount();
