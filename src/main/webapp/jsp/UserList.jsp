@@ -114,15 +114,31 @@
 </form>
 
 
+<%--分配角色--%>
+<form class="layui-form layui-form-pane" action="" hidden="hidden" id="editRole_form">
+
+    <input type="checkbox" name="" title="超级管理员" value="0" checked>
+    <input type="checkbox" name="" title="经理">
+    <input type="checkbox" name="" title="主管" disabled>
+
+</form>
+
+
+
 
 <script type="text/javascript" src="../frame/layui/layui.js"></script>
 <script type="text/javascript" src="../js/index.js"></script>
 <script type="text/javascript">
+
+
+
+
     // layui方法
-    layui.use(['table', 'form', 'layer', 'vip_table'], function() {
+    layui.use(['table', 'form', 'layer', 'vip_table','element'], function() {
 
         // 操作对象
         var form = layui.form,
+            element = layui.element,
             table = layui.table,
             layer = layui.layer,
             vipTable = layui.vip_table,
@@ -134,6 +150,9 @@
                     layer.alert(JSON.stringify(data));
                 }
             };
+
+
+
 
 
         // 表格渲染
@@ -292,7 +311,7 @@
 
 
 
-        //静态状态
+        //转换状态
         table.on('tool(dateTable)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -324,25 +343,100 @@
 
                     });
 
-
-
                     layer.close(index);
                     //向服务端发送删除指令
                 });
             } else if(layEvent === 'editRole'){ //编辑
-                //do something
 
-                //同步更新缓存对应的值
-                obj.update({
-                    username: '123'
-                    ,title: 'xxx'
+                //修改页面id:editRole_form
+
+                //1.发起ajax请求(同步)
+
+                $.ajax({
+                    type:"get",
+                    url:'${pageContext.request.contextPath}/findRoleByUserServlet?userId='+data.userId,
+                    async:false, //同步
+                    dataType:'json',
+                    success:function (result) {
+                        //重新加载html分配角色form表单
+                        $("#editRole_form").empty();//清空
+                        $.each(result,function (index,role) {
+
+                            var $input;
+                            if (role.roleActive == 0) {
+                                $input = $("<input type='checkbox' name='roleId' value='" + role.roleId + "' title='" + role.roleName + "' " + role.checked + " />")
+                            }
+                            else
+                            {
+                                $input = $("<input type='checkbox' name='roleId' value='"+role.roleId+"' title='"+role.roleName+"' "+role.checked+" disabled />")
+                            }
+                            $("#editRole_form").append($input);
+                            // <input type="checkbox" name="" title="超级管理员" value="0" checked>
+                        });
+
+                        //最后添加一个隐藏表单元素，存放userId
+                        $("<input type='text' name='userId' value='"+data.userId+"' hidden />").appendTo($("#editRole_form"));
+
+
+
+                       // element.init();
+                        form.render("checkbox")
+                        //layer.msg(result.length);
+                    },
+                    error:function (result) {
+                        layer.msg("-----"+result);
+                    }
+
+
                 });
+
+
+
+                //do something
+                layer.open({
+                    title:'分配角色',
+                    type: 1,
+                    content: $("#editRole_form"),
+                    area: ['550px', '300px'],
+                    btn:['确认','取消'],
+                    yes:function () {
+
+                        //确定按钮的操作 $("#editRole_form").serialize():将整个表单参数序列化 后台可以根据name直接获取
+                        $.post("${pageContext.request.contextPath}/updateRoleByUser?",$("#editRole_form").serialize(),function (result) {
+
+                            if(result==1)
+                            {
+                                layer.msg("操作成功!!!");
+                                layer.closeAll();
+                            }
+                            else
+                            {
+                                layer.msg("操作失败,请重试!!!");
+                            }
+
+                        })
+
+
+                    }
+
+                });
+
+
             }
         });
 
 
 
     });
+
+
+    $(function () {
+
+        alert("---");
+
+    })
+
+
 </script>
 <!-- 表格操作按钮集 -->
 <script type="text/html" id="barOption">
@@ -359,6 +453,11 @@
     <a class="layui-btn layui-btn-mini layui-bg-gray">未激活</a>
     {{#  } }}
 </script>
+
+
+
+
+
 </body>
 
 </html>
