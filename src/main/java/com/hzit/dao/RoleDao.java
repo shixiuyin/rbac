@@ -119,4 +119,64 @@ public class RoleDao extends BaseDao {
     }
 
 
+    public List<Object> findRoleListByPage(Integer page, Integer limit) {
+        List<Object> list = new ArrayList<>();
+
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        String sql  = "SELECT * FROM sys_role LIMIT ? ,?";
+
+        try {
+            statement = connection.prepareStatement(sql);
+
+            statement.setInt(1,(page-1)*limit);
+            statement.setInt(2,limit);
+
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                Role role = new Role();
+                role.setRoleId(rs.getString("role_id"));
+                role.setRoleName(rs.getString("role_name"));
+                role.setRoleDesc(rs.getString("role_desc"));
+                role.setRoleActive(rs.getString("role_active"));
+                list.add(role);
+            }
+            return  list;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+        return null;
+    }
+
+    public Integer getRoleCount() {
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        String sql  = "SELECT COUNT(1) cnt FROM sys_role";
+
+        try {
+            statement = connection.prepareStatement(sql);
+
+            rs = statement.executeQuery();
+            if(rs.next())
+            {
+                int cnt = rs.getInt("cnt");
+                return cnt;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            closeAll(connection,statement,rs);
+        }
+
+        return null;
+    }
 }

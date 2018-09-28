@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-09-27 17:24:59
+Date: 2018-09-28 16:28:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,6 +25,7 @@ CREATE TABLE `sys_menu` (
   `PARENT_ID` varchar(32) DEFAULT NULL COMMENT '父ID',
   `LINK_URL` varchar(256) DEFAULT NULL COMMENT '对应地址',
   `STATUS` char(1) DEFAULT NULL COMMENT '状态0--可用  1--不可用',
+  `ICON` varchar(32) DEFAULT NULL,
   `REMARK` varchar(256) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`MENU_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -32,18 +33,15 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('F0', '系统', '0', null, 'Y', '');
-INSERT INTO `sys_menu` VALUES ('F0000', '用户', 'F0', '', 'Y', '');
-INSERT INTO `sys_menu` VALUES ('F0001', '用户管理', 'F0000', '', 'Y', '');
-INSERT INTO `sys_menu` VALUES ('F0002', '角色管理', 'F0000', '', 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F0003', '机构管理', 'F0', '', 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F0004', '资源权限管理', 'F0000', '', 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F0005', '在线用户', 'F0000', 'queryOnlineUsers', 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F0006', '字典管理', 'F0', null, 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F0007', '流程管理', 'F0', 'bpm/deployList', 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F0008', '流程测试', 'F0', 'sys/F0/F0008-L.jsp', 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F1', '客户管理', '0', null, 'Y', null);
-INSERT INTO `sys_menu` VALUES ('F1001', '客户基本信息', 'F1', null, 'Y', null);
+INSERT INTO `sys_menu` VALUES ('F0', '用户', '0', '', 'Y', '&#xe620;', '');
+INSERT INTO `sys_menu` VALUES ('F0001', '用户管理', 'F0', 'jsp/UserList.jsp', 'Y', '&#xe621;', '');
+INSERT INTO `sys_menu` VALUES ('F0002', '角色管理', 'F0', 'jsp/RoleList.jsp', 'Y', '&#xe621;', null);
+INSERT INTO `sys_menu` VALUES ('F0003', '在线用户', 'F0', 'jsp/OnLine.html', 'Y', '&#xe621;', null);
+INSERT INTO `sys_menu` VALUES ('F1', 'LAYUI基础', '0', null, 'Y', '&#xe620', null);
+INSERT INTO `sys_menu` VALUES ('F1001', '按钮', 'F1', 'demo/btn.html', 'Y', null, null);
+INSERT INTO `sys_menu` VALUES ('F1002', '表单', 'F1', 'demo/form.html', 'Y', '&#xe621;', null);
+INSERT INTO `sys_menu` VALUES ('F1003', '表格', 'F1', 'demo/table.html', 'Y', '&#xe621;', null);
+INSERT INTO `sys_menu` VALUES ('F1004', '选项卡', 'F1', 'demo/tab-card.html', 'Y', '&#xe621;', null);
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -61,6 +59,7 @@ CREATE TABLE `sys_role` (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES ('0', '超级超级管理员', '哈哈', '0');
+INSERT INTO `sys_role` VALUES ('1', 'CEO', 'CEO', '1');
 INSERT INTO `sys_role` VALUES ('6246E4F5BCE4425DA1B072B4C7DF5762', 'hello', '中文', '0');
 INSERT INTO `sys_role` VALUES ('A8247FD28E974286B8C96E0CCC3DDCDC', '经理', '		 打豆豆\r\n		', '0');
 
@@ -128,9 +127,9 @@ CREATE TABLE `sys_user_role_ele` (
 -- ----------------------------
 -- Records of sys_user_role_ele
 -- ----------------------------
+INSERT INTO `sys_user_role_ele` VALUES ('075BD250CBD946A9AB587CED9747B64B', '0');
+INSERT INTO `sys_user_role_ele` VALUES ('075BD250CBD946A9AB587CED9747B64B', '6246E4F5BCE4425DA1B072B4C7DF5762');
+INSERT INTO `sys_user_role_ele` VALUES ('543DE6DF8DB44D46BEAE37A31B70FBA7', '0');
+INSERT INTO `sys_user_role_ele` VALUES ('543DE6DF8DB44D46BEAE37A31B70FBA7', '6246E4F5BCE4425DA1B072B4C7DF5762');
+INSERT INTO `sys_user_role_ele` VALUES ('0', 'A8247FD28E974286B8C96E0CCC3DDCDC');
 INSERT INTO `sys_user_role_ele` VALUES ('0', '0');
-INSERT INTO `sys_user_role_ele` VALUES ('2016091800031904', '0');
-INSERT INTO `sys_user_role_ele` VALUES ('2016112200045202', '40281c13ddc8492b9d0d482e7f75250a');
-INSERT INTO `sys_user_role_ele` VALUES ('2017072500047402', '40281c13ddc8492b9d0d482e7f75250a');
-INSERT INTO `sys_user_role_ele` VALUES ('2017072500047402', '6246E4F5BCE4425DA1B072B4C7DF5762');
-INSERT INTO `sys_user_role_ele` VALUES ('2017072500047402', 'A8247FD28E974286B8C96E0CCC3DDCDC');

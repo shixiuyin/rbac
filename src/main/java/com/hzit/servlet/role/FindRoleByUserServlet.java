@@ -38,6 +38,5 @@ public class FindRoleByUserServlet extends HttpServlet {
         //4.返回数据
         response.getWriter().print(toJSONString);
 
-
     }
 }
