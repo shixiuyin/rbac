@@ -11,7 +11,7 @@
 				}, {
 					"text": "角色管理",
 					"icon": "&#xe621;",
-					"href": "jsp/RoleList.html"
+					"href": "jsp/RoleList.jsp"
 				},{
 					"text": "在线用户",
 					"icon": "&#xe621;",

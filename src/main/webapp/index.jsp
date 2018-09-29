@@ -60,7 +60,7 @@
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>
                     <dd><a href="javascript:;" href-url="demo/map.html"><i class="layui-icon">&#xe621;</i>图表</a></dd>
-                    <dd><a href="/"><i class="layui-icon">&#x1006;</i>退出</a></dd>
+                    <dd><a href="${pageContext.request.contextPath}/LoginOutServket"><i class="layui-icon">&#x1006;</i>退出</a></dd>
                 </dl>
             </li>
         </ul>
@@ -155,7 +155,7 @@
         // 顶部左侧菜单生成 [请求地址,过滤ID,是否展开,携带参数]
         vipNav.top_left('./json/nav_top_left.json','side-top-left',false);
         // 主体菜单生成 [请求地址,过滤ID,是否展开,携带参数]
-        vipNav.main('./json/nav_main.json','side-main',true);
+        vipNav.main('${pageContext.request.contextPath}/loadNavServlet','side-main',true);
 
         // you code ...
 

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="rbac@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.4">
+    <root id="1"/>
+    <schema id="2" parent="1" name="rbac">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="bj1804"/>
+    <schema id="4" parent="1" name="bj1805"/>
+    <schema id="5" parent="1" name="cz_2"/>
+    <schema id="6" parent="1" name="information_schema"/>
+    <schema id="7" parent="1" name="mysql"/>
+    <schema id="8" parent="1" name="performance_schema"/>
+    <schema id="9" parent="1" name="sakila"/>
+    <schema id="10" parent="1" name="store"/>
+    <schema id="11" parent="1" name="sys"/>
+    <schema id="12" parent="1" name="world"/>
+    <table id="13" parent="2" name="sys_menu"/>
+    <table id="14" parent="2" name="sys_role"/>
+    <table id="15" parent="2" name="sys_role_menu_ele"/>
+    <table id="16" parent="2" name="sys_user"/>
+    <table id="17" parent="2" name="sys_user_role_ele"/>
+    <column id="18" parent="13" name="MENU_ID">
+      <Position>1</Position>
+      <Comment> 菜单ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="13" name="MENU_NAME">
+      <Position>2</Position>
+      <Comment> 菜单名称</Comment>
+      <DataType>varchar(128)|0</DataType>
+    </column>
+    <column id="20" parent="13" name="PARENT_ID">
+      <Position>3</Position>
+      <Comment>父ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+    </column>
+    <column id="21" parent="13" name="LINK_URL">
+      <Position>4</Position>
+      <Comment>对应地址</Comment>
+      <DataType>varchar(256)|0</DataType>
+    </column>
+    <column id="22" parent="13" name="STATUS">
+      <Position>5</Position>
+      <Comment>状态0--可用  1--不可用</Comment>
+      <DataType>char(1)|0</DataType>
+    </column>
+    <column id="23" parent="13" name="REMARK">
+      <Position>6</Position>
+      <Comment>备注</Comment>
+      <DataType>varchar(256)|0</DataType>
+    </column>
+    <key id="24" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>MENU_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="25" parent="14" name="ROLE_ID">
+      <Position>1</Position>
+      <Comment>角色ID</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="14" name="ROLE_NAME">
+      <Position>2</Position>
+      <Comment>角色名称</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="27" parent="14" name="ROLE_DESC">
+      <Position>3</Position>
+      <Comment>角色描述</Comment>
+      <DataType>varchar(100)|0</DataType>
+    </column>
+    <column id="28" parent="14" name="ROLE_ACTIVE">
+      <Position>4</Position>
+      <Comment>是否可用  0---可用   1---不可用</Comment>
+      <DataType>int(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="29" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ROLE_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="30" parent="15" name="ROLE_ID">
+      <Position>1</Position>
+      <Comment>角色ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="31" parent="15" name="MENU_ID">
+      <Position>2</Position>
+      <Comment>菜单ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="16" name="USER_ID">
+      <Position>1</Position>
+      <Comment>用户ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="16" name="LOGIN_NAME">
+      <Position>2</Position>
+      <Comment>登录名称</Comment>
+      <DataType>varchar(128)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="16" name="LOGIN_PWD">
+      <Position>3</Position>
+      <Comment>登录密码</Comment>
+      <DataType>varchar(128)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="16" name="USER_NAME">
+      <Position>4</Position>
+      <Comment>用户名称</Comment>
+      <DataType>varchar(128)|0</DataType>
+    </column>
+    <column id="36" parent="16" name="STATUS">
+      <Position>5</Position>
+      <Comment>用户状态</Comment>
+      <DataType>char(1)|0</DataType>
+    </column>
+    <column id="37" parent="16" name="EMAIL">
+      <Position>6</Position>
+      <Comment>邮箱</Comment>
+      <DataType>varchar(128)|0</DataType>
+    </column>
+    <column id="38" parent="16" name="ADDRESS">
+      <Position>7</Position>
+      <Comment>地址</Comment>
+      <DataType>varchar(256)|0</DataType>
+    </column>
+    <column id="39" parent="16" name="REMARK">
+      <Position>8</Position>
+      <Comment>备注</Comment>
+      <DataType>varchar(256)|0</DataType>
+    </column>
+    <index id="40" parent="16" name="LOGIN_NAME">
+      <ColNames>LOGIN_NAME</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="41" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USER_ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="42" parent="16" name="LOGIN_NAME">
+      <ColNames>LOGIN_NAME</ColNames>
+      <UnderlyingIndexName>LOGIN_NAME</UnderlyingIndexName>
+    </key>
+    <column id="43" parent="17" name="USER_ID">
+      <Position>1</Position>
+      <Comment>用户ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="44" parent="17" name="ROLE_ID">
+      <Position>2</Position>
+      <Comment>角色ID</Comment>
+      <DataType>varchar(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+  </database-model>
+</dataSource>

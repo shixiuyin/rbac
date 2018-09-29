@@ -1,8 +1,8 @@
-package com.hzit.servlet.user;
+package com.hzit.servlet.role;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hzit.bean.ResponseData;
-import com.hzit.bean.User;
+import com.hzit.dao.RoleDao;
 import com.hzit.dao.UserDao;
 
 import javax.servlet.ServletException;
@@ -13,12 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "FindUserListServlet",urlPatterns = "/findUserListServlet")
-public class FindUserListServlet extends HttpServlet {
+@WebServlet(name = "FindRoleListServlet",urlPatterns = "/findRoleListServlet")
+public class FindRoleListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         doGet(request,response);
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,11 +32,12 @@ public class FindUserListServlet extends HttpServlet {
 
 
         //1.得到数据库所有的数据
-        UserDao userDao = new UserDao();
-        List<Object> userList = userDao.findUserListByPage(page,limit);
+        //UserDao userDao = new UserDao();
+        RoleDao roleDao = new RoleDao();
+        List<Object> userList = roleDao.findRoleListByPage(page,limit);
 
         //得到总数量
-        Integer count = userDao.getUserCount();
+        Integer count = roleDao.getRoleCount();
 
         //2.封装到ResponseData里面
         ResponseData responseData = ResponseData.success(count, userList);
@@ -48,6 +48,7 @@ public class FindUserListServlet extends HttpServlet {
 
         System.out.println("json:"+jsonString);
         response.getWriter().print(jsonString);
+
 
     }
 }

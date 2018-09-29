@@ -14,7 +14,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Data-Table 表格</title>
+    <title>角色列表</title>
     <link rel="stylesheet" href="../frame/layui/css/layui.css">
     <!--<link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
     <link rel="stylesheet" href="../frame/static/css/style.css">
@@ -40,7 +40,7 @@
 </div>
 
 <!-- 表格 -->
-<div id="dateTable"  lay-filter="dateTable"></div>
+<div id="dateTable" lay-filter="dateTable"></div>
 
 <!--添加用户-->
 <form class="layui-form layui-form-pane" action="" hidden="hidden" id="adduser_form">
@@ -49,13 +49,15 @@
         <div class="layui-inline">
             <label class="layui-form-label">登录名</label>
             <div class="layui-input-inline">
-                <input type="text" name="loginName" id="date1" required="required" lay-verify="required"  autocomplete="off" class="layui-input">
+                <input type="text" name="loginName" id="date1" required="required" lay-verify="required"
+                       autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
-                <input type="text" name="userName" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="text" name="userName" required="required" lay-verify="required" autocomplete="off"
+                       class="layui-input">
             </div>
         </div>
     </div>
@@ -64,13 +66,15 @@
         <div class="layui-inline">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input type="password" name="loginPwd" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="password" name="loginPwd" required="required" lay-verify="required" autocomplete="off"
+                       class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">确认密码</label>
             <div class="layui-input-inline">
-                <input type="password" name="password" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+                <input type="password" name="password" required="required" lay-verify="required" autocomplete="off"
+                       class="layui-input">
             </div>
         </div>
     </div>
@@ -78,14 +82,16 @@
     <div class="layui-form-item">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-block">
-            <input type="email" name="email" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="email" name="email" required="required" lay-verify="required" autocomplete="off"
+                   class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">地址</label>
         <div class="layui-input-block">
-            <input type="text" name="address" required="required" lay-verify="required" autocomplete="off" class="layui-input">
+            <input type="text" name="address" required="required" lay-verify="required" autocomplete="off"
+                   class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -110,20 +116,45 @@
     </div>
 
 
-
 </form>
 
 
 <%--分配角色--%>
-<form class="layui-form layui-form-pane" action="" hidden="hidden" id="editRole_form">
+<form class="layui-form layui-form-pane" action="" hidden="hidden" id="editResources_form">
+    <table class="layui-table">
+        <colgroup>
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>模块</th>
+            <th>权限</th>
+        </tr>
+        </thead>
+        <tbody id="myTableBody">
+        <tr>
+            <td><input type="checkbox" name="" title="用户" lay-skin="primary"></td>
+            <td>
+                <input type="checkbox" name="" title="用户管理" lay-skin="primary">
+                <input type="checkbox" name="" title="角色管理" lay-skin="primary">
+                <input type="checkbox" name="" title="在线用户" lay-skin="primary">
 
-    <input type="checkbox" name="" title="超级管理员" value="0" checked>
-    <input type="checkbox" name="" title="经理">
-    <input type="checkbox" name="" title="主管" disabled>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" name="" title="LAYUI基础" lay-skin="primary"></td>
+            <td>
+                <input type="checkbox" name="" title="按钮" lay-skin="primary">
+                <input type="checkbox" name="" title="表单" lay-skin="primary">
+                <input type="checkbox" name="" title="表格" lay-skin="primary">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 
 </form>
-
-
 
 
 <script type="text/javascript" src="../frame/layui/layui.js"></script>
@@ -131,10 +162,8 @@
 <script type="text/javascript">
 
 
-
-
     // layui方法
-    layui.use(['table', 'form', 'layer', 'vip_table','element'], function() {
+    layui.use(['table', 'form', 'layer', 'vip_table', 'element'], function () {
 
         // 操作对象
         var form = layui.form,
@@ -143,16 +172,13 @@
             layer = layui.layer,
             vipTable = layui.vip_table,
             $ = layui.jquery,
-            active ={
-                getCheckData: function(){ //获取选中数据
+            active = {
+                getCheckData: function () { //获取选中数据
                     var checkStatus = table.checkStatus('idTest')
-                        ,data = checkStatus.data;
+                        , data = checkStatus.data;
                     layer.alert(JSON.stringify(data));
                 }
             };
-
-
-
 
 
         // 表格渲染
@@ -161,6 +187,7 @@
             ,
             height: vipTable.getFullHeight() //容器高度
             ,
+            cellMinWidth: 80,
             cols: [
                 [ //标题栏
                     {
@@ -168,54 +195,31 @@
                         sort: true,
                         fixed: true,
                         space: true
-                    }, {
-                    field: 'userId',
-                    title: 'ID',
-                    width: 200
-                }, {
-                    field: 'loginName',
-                    title: '登录名',
-                    width: 120
-                }, {
-                    field: 'userName',
-                    title: '用户名',
-                    width: 120
-                }, {
-                    field: 'email',
-                    title: '邮箱',
-                    width: 150
-                }, {
-                    field: 'address',
-                    title: '地址',
-                    width: 150
-                }, {
-                    field: 'status',
-                    title: '状态',
-                    width: 80,
-                    templet: '#titleTpl'
-                },{
-                    field: 'remark',
-                    title: '备注',
-                    width: 70
-                }, {
-                    fixed: 'right',
-                    title: '操作',
-                    width: 180,
-                    align: 'right',
-                    toolbar: '#barOption'
-                } //这里的toolbar值是模板元素的选择器
+                    },
+                    {field: 'roleId', title: 'ID', sort: true,width:200}
+                    , {field: 'roleName', title: '角色名',width:200} //width 支持：数字、百分比和不填写。你还可以通过 minWidth 参数局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    , {field: 'roleActive', title: '状态', sort: true,width:200, templet: '#titleTpl'}
+                    , {field: 'roleDesc', title: '角色描述',width:295},
+
+                    {
+                        fixed: 'right',
+                        title: '操作',
+                        width: 180,
+                        align: 'right',
+                        toolbar: '#barOption'
+                    } //这里的toolbar值是模板元素的选择器
                 ]
             ],
             id: 'dataCheck',
-            url: '${pageContext.request.contextPath}/findUserListServlet',
+            url: '${pageContext.request.contextPath}/findRoleListServlet',
             //url: '../json/data_table.json',
             method: 'get',
             page: true,
-            limits: [2,10, 20, 30,60],
+            limits: [2, 10, 20, 30, 60],
             limit: 2 //默认采用30
             ,
             //loading: false,
-            done: function(res, curr, count) {
+            done: function (res, curr, count) {
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                 console.log(res);
@@ -229,7 +233,7 @@
         });
 
         // 获取选中行
-        table.on('checkbox(dataCheck)', function(obj) {
+        table.on('checkbox(dataCheck)', function (obj) {
             layer.msg('123');
             console.log(obj.checked); //当前是否选中状态
             console.log(obj.data); //选中行的相关数据
@@ -237,12 +241,12 @@
         });
 
         // 刷新
-        $('#btn-refresh').on('click', function() {
+        $('#btn-refresh').on('click', function () {
             tableIns.reload();
         });
 
         //添加
-        $('#btn-add').on('click', function() {
+        $('#btn-add').on('click', function () {
 
             layer.open({
                 type: 1,
@@ -250,10 +254,10 @@
                 area: ['750px', '470px']
             });
         });
-        $("#submit_add").on('click',function () {
+        $("#submit_add").on('click', function () {
 
             //alert("----");
-            $.post("${pageContext.request.contextPath}/addUserServletAjax",$("#adduser_form").serialize(),function (reslut) {
+            $.post("${pageContext.request.contextPath}/addUserServletAjax", $("#adduser_form").serialize(), function (reslut) {
 
                 layer.msg(reslut);
 
@@ -261,47 +265,44 @@
         });
 
 
-
         //批量删除
-        $("#btn-delete-all").on('click',function () {
+        $("#btn-delete-all").on('click', function () {
             //获取所有选中的数据
             var checkStatus = table.checkStatus('dataCheck');
-            var array =  checkStatus.data; //获取选中的数据
+            var array = checkStatus.data; //获取选中的数据
 
-            if(array.length<=0) //如果没有数据被选中 提示需要选中数据
+            if (array.length <= 0) //如果没有数据被选中 提示需要选中数据
             {
                 layer.msg("请选择需要删除的数据!!");
                 return;
             }
-            layer.confirm('是否删除?', {icon: 3, title:'提示'}, function(index){
+            layer.confirm('是否删除?', {icon: 3, title: '提示'}, function (index) {
                 //只需要获取id即可：传参到数据库  http://localhsot:8080/sss?userId=0&userId=1
                 //封装参数格式：userId=0&userId=1
                 var ids = "";
-                for(var i=0;i<array.length;i++)
-                {
-                    if(i==(array.length-1)){
-                        ids = ids+"userId="+array[i].userId;
-                    }else{
-                        ids = ids+"userId="+array[i].userId+"&";
+                for (var i = 0; i < array.length; i++) {
+                    if (i == (array.length - 1)) {
+                        ids = ids + "userId=" + array[i].userId;
+                    } else {
+                        ids = ids + "userId=" + array[i].userId + "&";
                     }
                 }
                 //2.通过 ajax将id传给服务器
-                $.get("${pageContext.request.contextPath}/DelUserServlet?"+ids,function (result) {
-                   if(result>0)
-                   {
-                       layer.open({
-                           title: '成功'
-                           ,content: '删除成功!!'
-                       });
-                       //刷新表格
-                       tableIns.reload();
+                $.get("${pageContext.request.contextPath}/DelUserServlet?" + ids, function (result) {
+                    if (result > 0) {
+                        layer.open({
+                            title: '成功'
+                            , content: '删除成功!!'
+                        });
+                        //刷新表格
+                        tableIns.reload();
 
-                   }else{
-                       layer.open({
-                           title: '异常信息'
-                           ,content: '删除失败!!'
-                       });
-                   }
+                    } else {
+                        layer.open({
+                            title: '异常信息'
+                            , content: '删除失败!!'
+                        });
+                    }
                 });
                 console.log(ids);
                 layer.close(index);
@@ -310,30 +311,27 @@
         })
 
 
-
         //转换状态
-        table.on('tool(dateTable)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        table.on('tool(dateTable)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
 
-            if(layEvent === 'edit'){ //修改
+            if (layEvent === 'edit') { //修改
                 //do somehing
-            } else if(layEvent === 'stop'){ //禁用
-                layer.confirm('真的要禁用该账户么', function(index){
+            } else if (layEvent === 'stop') { //禁用
+                layer.confirm('真的要禁用该账户么', function (index) {
 
-                    if(data.status==1)
-                    {
+                    if (data.status == 1) {
                         layer.msg("该用户已经被禁用！！！")
                         return;
                     }
 
                     //开启ajax请求 禁用
-                    $.get("${pageContext.request.contextPath}/stopAccountServlet?userId="+data.userId,function (reslut) {
+                    $.get("${pageContext.request.contextPath}/stopAccountServlet?userId=" + data.userId, function (reslut) {
 
 
-                        if(reslut>0)
-                        {
+                        if (reslut > 0) {
                             obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                             tableIns.reload(); //重载数据
                             /*obj.update({
@@ -346,74 +344,92 @@
                     layer.close(index);
                     //向服务端发送删除指令
                 });
-            } else if(layEvent === 'editRole'){ //编辑
+            } else if (layEvent === 'editResources') { //编辑
 
                 //修改页面id:editRole_form
-
                 //1.发起ajax请求(同步)
 
                 $.ajax({
-                    type:"get",
-                    url:'${pageContext.request.contextPath}/findRoleByUserServlet?userId='+data.userId,
-                    async:false, //同步
-                    dataType:'json',
-                    success:function (result) {
+                    type: "get",
+                    url: '${pageContext.request.contextPath}/FindMenuListServlet?roleId=' + data.roleId,
+                    async: false, //同步
+                    dataType: 'json',
+                    success: function (result) {
                         //重新加载html分配角色form表单
-                        $("#editRole_form").empty();//清空
-                        $.each(result,function (index,role) {
-
-                            var $input;
-                            if (role.roleActive == 0) {
-                                $input = $("<input type='checkbox' name='roleId' value='" + role.roleId + "' title='" + role.roleName + "' " + role.checked + " />")
-                            }
-                            else
-                            {
-                                $input = $("<input type='checkbox' name='roleId' value='"+role.roleId+"' title='"+role.roleName+"' "+role.checked+" disabled />")
-                            }
-                            $("#editRole_form").append($input);
-                            // <input type="checkbox" name="" title="超级管理员" value="0" checked>
-                        });
-
-                        //最后添加一个隐藏表单元素，存放userId
-                        $("<input type='text' name='userId' value='"+data.userId+"' hidden />").appendTo($("#editRole_form"));
 
 
+                        /*
 
-                       // element.init();
+                                            <tr>
+                                                <td> <input type="checkbox" name="" title="用户" lay-skin="primary"></td>
+                                                    <td>
+                                                    <input type="checkbox" name="" title="用户管理" lay-skin="primary">
+                                                    <input type="checkbox" name="" title="角色管理" lay-skin="primary">
+                                                    <input type="checkbox" name="" title="在线用户" lay-skin="primary">
+
+                                                    </td>
+                                            </tr>
+                                            */
+
+                        $("#myTableBody").empty();
+
+                        $.each(result, function (index, menu) {
+
+                            //1.资源
+                            var strTr = "<tr>";
+                            strTr = strTr + "<td> <input type='checkbox' name='menuIds' title='" + menu.menuName + "' value='" + menu.menuId + "' lay-skin='primary'></td>";
+
+                            //获取所有的子资源
+                            var subArray = menu.subMenu;
+                            strTr = strTr + "<td>";
+                            $.each(subArray, function (index, subMenu) {
+                                strTr = strTr + " <input type='checkbox' name='menuIds' title='" + subMenu.menuName + "' value='" + subMenu.menuId + "' lay-skin='primary' " + subMenu.checked + ">";
+                            })
+                            strTr = strTr + "</td>";
+                            strTr = strTr + '</tr>';
+                            //2.获取子资源
+
+                            $("#myTableBody").append($(strTr));
+                            //layer.msg(strTr);
+
+                            //3.添加隐藏域 存放roleId
+                            var $text = $("<input type='text' name='roleId' value='"+data.roleId+"' hidden />");
+
+                            $("#editResources_form").append($text);
+
+                        })
+
+                        // element.init();
                         form.render("checkbox")
                         //layer.msg(result.length);
                     },
-                    error:function (result) {
-                        layer.msg("-----"+result);
+                    error: function (result) {
+                        layer.msg("-----" + result);
                     }
 
 
                 });
 
 
-
                 //do something
                 layer.open({
-                    title:'分配角色',
+                    title: '分配角色',
                     type: 1,
-                    content: $("#editRole_form"),
-                    area: ['550px', '300px'],
-                    btn:['确认','取消'],
-                    yes:function () {
+                    content: $("#editResources_form"),
+                    area: ['700px', '450px'],
+                    btn: ['确认', '取消'],
+                    yes: function () {
 
                         //确定按钮的操作 $("#editRole_form").serialize():将整个表单参数序列化 后台可以根据name直接获取
-                        $.post("${pageContext.request.contextPath}/updateRoleByUser?",$("#editRole_form").serialize(),function (result) {
+                        $.post("${pageContext.request.contextPath}/updateMenuServlet?", $("#editResources_form").serialize(), function (result) {
 
-                            if(result==1)
-                            {
+                            if (result == 1) {
                                 layer.msg("操作成功!!!");
                                 layer.closeAll();
                             }
-                            else
-                            {
+                            else {
                                 layer.msg("操作失败,请重试!!!");
                             }
-
                         })
 
 
@@ -426,9 +442,7 @@
         });
 
 
-
     });
-
 
 
 </script>
@@ -436,20 +450,17 @@
 <script type="text/html" id="barOption">
     <a class="layui-btn layui-btn-mini" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="stop">停用</a>
-    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="editRole">分配角色</a>
+    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="editResources">分配权限</a>
 </script>
 
 <%--转换状态--%>
 <script type="text/html" id="titleTpl">
-    {{#  if(d.status == 0){ }}
+    {{#  if(d.roleActive == 0){ }}
     <a class="layui-btn layui-btn-mini">激活</a>
     {{#  } else { }}
     <a class="layui-btn layui-btn-mini layui-bg-gray">未激活</a>
     {{#  } }}
 </script>
-
-
-
 
 
 </body>
