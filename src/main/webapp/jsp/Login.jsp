@@ -28,11 +28,11 @@
         </div>
         <div class="layui-input-inline">
             <input type="text" name="loginName" required lay-verify="required" placeholder="用户名" autocomplete="off"
-                   class="layui-input">
+                   class="layui-input" value="admin">
         </div>
         <div class="layui-input-inline">
             <input type="password" name="loginPwd" required lay-verify="required" placeholder="密码" autocomplete="off"
-                   class="layui-input">
+                   class="layui-input" value="admin123">
         </div>
         <div class="layui-input-inline login-btn">
             <button type="submit" class="layui-btn">登录</button>
