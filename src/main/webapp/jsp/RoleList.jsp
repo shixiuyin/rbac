@@ -123,7 +123,7 @@
 <form class="layui-form layui-form-pane" action="" hidden="hidden" id="editResources_form">
     <table class="layui-table">
         <colgroup>
-            <col width="150">
+            <col width="200">
             <col>
         </colgroup>
         <thead>
@@ -132,14 +132,23 @@
             <th>权限</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="myTableBody">
         <tr>
-            <td> <input type="checkbox" name="" title="经理" lay-skin="primary"></td>
-            <td>2016-11-29</td>
+            <td><input type="checkbox" name="" title="用户" lay-skin="primary"></td>
+            <td>
+                <input type="checkbox" name="" title="用户管理" lay-skin="primary">
+                <input type="checkbox" name="" title="角色管理" lay-skin="primary">
+                <input type="checkbox" name="" title="在线用户" lay-skin="primary">
+
+            </td>
         </tr>
         <tr>
-            <td> <input type="checkbox" name="" title="主管" lay-skin="primary"></td>
-            <td>2016-11-28</td>
+            <td><input type="checkbox" name="" title="LAYUI基础" lay-skin="primary"></td>
+            <td>
+                <input type="checkbox" name="" title="按钮" lay-skin="primary">
+                <input type="checkbox" name="" title="表单" lay-skin="primary">
+                <input type="checkbox" name="" title="表格" lay-skin="primary">
+            </td>
         </tr>
         </tbody>
     </table>
@@ -338,33 +347,57 @@
             } else if (layEvent === 'editResources') { //编辑
 
                 //修改页面id:editRole_form
-
                 //1.发起ajax请求(同步)
-                /*
+
                 $.ajax({
                     type: "get",
-                    url: '/findRoleByUserServlet?userId=' + data.userId,
+                    url: '${pageContext.request.contextPath}/FindMenuListServlet?roleId=' + data.roleId,
                     async: false, //同步
                     dataType: 'json',
                     success: function (result) {
                         //重新加载html分配角色form表单
-                        $("#editRole_form").empty();//清空
-                        $.each(result, function (index, role) {
 
-                            var $input;
-                            if (role.roleActive == 0) {
-                                $input = $("<input type='checkbox' name='roleId' value='" + role.roleId + "' title='" + role.roleName + "' " + role.checked + " />")
-                            }
-                            else {
-                                $input = $("<input type='checkbox' name='roleId' value='" + role.roleId + "' title='" + role.roleName + "' " + role.checked + " disabled />")
-                            }
-                            $("#editRole_form").append($input);
-                            // <input type="checkbox" name="" title="超级管理员" value="0" checked>
-                        });
 
-                        //最后添加一个隐藏表单元素，存放userId
-                        $("<input type='text' name='userId' value='" + data.userId + "' hidden />").appendTo($("#editRole_form"));
+                        /*
 
+                                            <tr>
+                                                <td> <input type="checkbox" name="" title="用户" lay-skin="primary"></td>
+                                                    <td>
+                                                    <input type="checkbox" name="" title="用户管理" lay-skin="primary">
+                                                    <input type="checkbox" name="" title="角色管理" lay-skin="primary">
+                                                    <input type="checkbox" name="" title="在线用户" lay-skin="primary">
+
+                                                    </td>
+                                            </tr>
+                                            */
+
+                        $("#myTableBody").empty();
+
+                        $.each(result, function (index, menu) {
+
+                            //1.资源
+                            var strTr = "<tr>";
+                            strTr = strTr + "<td> <input type='checkbox' name='menuIds' title='" + menu.menuName + "' value='" + menu.menuId + "' lay-skin='primary'></td>";
+
+                            //获取所有的子资源
+                            var subArray = menu.subMenu;
+                            strTr = strTr + "<td>";
+                            $.each(subArray, function (index, subMenu) {
+                                strTr = strTr + " <input type='checkbox' name='menuIds' title='" + subMenu.menuName + "' value='" + subMenu.menuId + "' lay-skin='primary' " + subMenu.checked + ">";
+                            })
+                            strTr = strTr + "</td>";
+                            strTr = strTr + '</tr>';
+                            //2.获取子资源
+
+                            $("#myTableBody").append($(strTr));
+                            //layer.msg(strTr);
+
+                            //3.添加隐藏域 存放roleId
+                            var $text = $("<input type='text' name='roleId' value='"+data.roleId+"' hidden />");
+
+                            $("#editResources_form").append($text);
+
+                        })
 
                         // element.init();
                         form.render("checkbox")
@@ -375,7 +408,7 @@
                     }
 
 
-                });*/
+                });
 
 
                 //do something
@@ -388,7 +421,7 @@
                     yes: function () {
 
                         //确定按钮的操作 $("#editRole_form").serialize():将整个表单参数序列化 后台可以根据name直接获取
-                        $.post("${pageContext.request.contextPath}/updateRoleByUser?", $("#editRole_form").serialize(), function (result) {
+                        $.post("${pageContext.request.contextPath}/updateMenuServlet?", $("#editResources_form").serialize(), function (result) {
 
                             if (result == 1) {
                                 layer.msg("操作成功!!!");
