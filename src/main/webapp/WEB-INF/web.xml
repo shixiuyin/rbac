@@ -4,8 +4,56 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+
+    <filter>
+
+        <filter-name>helloFilter</filter-name>
+        <filter-class>com.hzit.filter.HelloFilter</filter-class>
+
+    </filter>
+    <filter-mapping>
+
+        <filter-name>helloFilter</filter-name>
+        <!--给过滤器设置范围，当满足这个路径要求的时候，就会进入过滤器
+            a: /jsp/UserList.jsp 表示只拦截这一个请求
+            b. /jsp/* 表示拦截jsp下所有的请求
+            c. /* 拦截所有请求,拦截一层
+            d. /** 表示所有的请求,包后代的目录
+        -->
+        <url-pattern>/test</url-pattern>
+    </filter-mapping>
+
+
+    <!--注册监听-->
+    <listener>
+        <listener-class>com.hzit.listener.HelloListener</listener-class>
+    </listener>
     
+    <listener>
+        <listener-class>com.hzit.listener.HelloSessionListener</listener-class>
+    </listener>
+    
+    <listener>
+        <listener-class>com.hzit.listener.HelloRequestListener</listener-class>
+    </listener>
+    
+    <listener>
+        <listener-class>com.hzit.listener.AttrSessionListener</listener-class>
+    </listener>
+    
+    <listener>
+        <listener-class>com.hzit.listener.OnLineListener</listener-class>
+    </listener>
+    
+
+
     <welcome-file-list>
         <welcome-file>/</welcome-file>
     </welcome-file-list>
+    
+    
+
+    
+    
 </web-app>

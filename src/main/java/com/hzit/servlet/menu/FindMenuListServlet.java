@@ -21,7 +21,6 @@ public class FindMenuListServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 
@@ -34,7 +33,6 @@ public class FindMenuListServlet extends HttpServlet {
 
         //3.转换成json
         String toJSONString = JSONArray.toJSONString(menuList);
-
 
         //4.返回结果
         response.getWriter().print(toJSONString);

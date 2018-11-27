@@ -7,6 +7,8 @@ import com.hzit.util.Md5;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/loginServlet")
 public class LoginServlet extends javax.servlet.http.HttpServlet {
@@ -48,6 +50,17 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
                 response.sendRedirect(request.getContextPath()+"/jsp/Login.jsp");
             }else
             {
+
+                //补缺user 信息，统计在线用户
+                String sessionId =  session.getId()==null?"":session.getId();
+
+                String ip = request.getRemoteAddr();
+                String logintime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+                user.setSessionId(sessionId);
+                user.setIp(ip);
+                user.setLoginTime(logintime);
+
                 //登录成功  保存到域对象中
                 session.setAttribute("userInfo",user);
                 session.removeAttribute("errorMsg");

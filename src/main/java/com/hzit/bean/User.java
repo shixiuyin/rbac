@@ -12,6 +12,14 @@ public class User {
     private String address;
     private String remark;
 
+
+    private String sessionId;//保存session的ID
+    private String ip;
+    private String loginTime;
+
+
+
+
     public User() {
     }
 
@@ -38,7 +46,34 @@ public class User {
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 ", remark='" + remark + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", ip='" + ip + '\'' +
+                ", loginTime='" + loginTime + '\'' +
                 '}';
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
     }
 
     public String getUserId() {

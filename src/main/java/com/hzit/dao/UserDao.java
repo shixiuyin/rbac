@@ -136,8 +136,8 @@ public class UserDao extends BaseDao {
      * @return
      */
     public int reg(User user) {
-        String sql = "INSERT INTO sys_user(user_id,login_name,login_pwd,user_name,status,email,address,remark) values(?,?,?,?,?,?,?,?)";
-        int row = baseExecuteUpdate(sql, user.getUserId(), user.getLoginName(), user.getLoginPwd(), user.getUserName(), user.getStatus(), user.getEmail(), user.getAddress(), user.getRemark());
+        String sql = "INSERT INTO sys_user(login_name,login_pwd,user_name,status,email,address,remark) values(?,?,?,?,?,?,?)";
+        int row = baseExecuteUpdate(sql, user.getLoginName(), user.getLoginPwd(), user.getUserName(), user.getStatus(), user.getEmail(), user.getAddress(), user.getRemark());
         return  row;
     }
 

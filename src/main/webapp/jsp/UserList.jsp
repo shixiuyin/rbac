@@ -211,8 +211,8 @@
             //url: '../json/data_table.json',
             method: 'get',
             page: true,
-            limits: [2,10, 20, 30,60],
-            limit: 2 //默认采用30
+            limits: [10, 20, 30,60],
+            limit: 10 //默认采用30
             ,
             //loading: false,
             done: function(res, curr, count) {

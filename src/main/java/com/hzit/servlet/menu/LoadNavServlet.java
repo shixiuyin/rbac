@@ -44,7 +44,7 @@ public class LoadNavServlet extends HttpServlet {
 
             MenuDao menuDao = new MenuDao();
 
-            JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObject = new JSONObject(true);
 
             List<Nav> navByRoleId = menuDao.findNavByRoleId(userId);
 

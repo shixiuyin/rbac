@@ -14,9 +14,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>首页 · 后台模板 HTML</title>
-    <link rel="stylesheet" href="frame/layui/css/layui.css">
-    <link rel="stylesheet" href="./frame/static/css/style.css">
-    <link rel="icon" href="./frame/static/image/code.png">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/frame/layui/css/layui.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/frame/static/css/style.css">
+    <link rel="icon" href="${pageContext.request.contextPath}/frame/static/image/code.png">
 </head>
 <body>
 
@@ -56,7 +56,7 @@
                 </dl>
             </li>
             <li class="layui-nav-item">
-                <a class="name" href="javascript:;"><img src="./frame/static/image/code.png" alt="logo"> ${userInfo.userName} </a>
+                <a class="name" href="javascript:;"><img src="${pageContext.request.contextPath}//frame/static/image/code.png" alt="logo"> ${userInfo.userName} </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>
                     <dd><a href="javascript:;" href-url="demo/map.html"><i class="layui-icon">&#xe621;</i>图表</a></dd>
@@ -142,8 +142,8 @@
     </table>
 </div>
 
-<script type="text/javascript" src="frame/layui/layui.js"></script>
-<script type="text/javascript" src="./frame/static/js/vip_comm.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/frame/layui/layui.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/frame/static/js/vip_comm.js"></script>
 <script type="text/javascript">
     layui.use(['layer','vip_nav'], function () {
 

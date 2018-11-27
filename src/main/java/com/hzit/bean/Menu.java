@@ -35,6 +35,7 @@ public class Menu {
     }
 
     public Menu() {
+
     }
 
     public Menu(String menuId, String menuName, String parentId, String linkUrl, String status, String icon, String remark, String checked, List<Menu> subMenu) {

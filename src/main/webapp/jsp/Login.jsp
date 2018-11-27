@@ -32,7 +32,7 @@
         </div>
         <div class="layui-input-inline">
             <input type="password" name="loginPwd" required lay-verify="required" placeholder="密码" autocomplete="off"
-                   class="layui-input" value="admin123">
+                   class="layui-input" value="admin123456">
         </div>
         <div class="layui-input-inline login-btn">
             <button type="submit" class="layui-btn">登录</button>

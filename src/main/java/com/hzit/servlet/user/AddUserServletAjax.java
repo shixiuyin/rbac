@@ -21,7 +21,7 @@ public class AddUserServletAjax extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
 
         //ID使用的UUID 自动生成
-        String userId = UUIDUtils.getId();
+        //String userId = UUIDUtils.getId();
         String loginName = request.getParameter("loginName");
         String loginPwd = Md5.getMd5String(request.getParameter("loginPwd")).toUpperCase();//MD5加密(登录时候也需要进行加密后在比对)
         String userName = request.getParameter("userName");
@@ -30,7 +30,7 @@ public class AddUserServletAjax extends HttpServlet {
         Integer status = request.getParameter("status")!=null?0:1;//判断是否激活
         String remark = request.getParameter("remark");
 
-        User user = new User(userId, loginName, loginPwd, userName, status, email, address, remark);
+        User user = new User(null, loginName, loginPwd, userName, status, email, address, remark);
         //2.调用添加的方法
         UserDao userDao = new UserDao();
         int row = userDao.reg(user);

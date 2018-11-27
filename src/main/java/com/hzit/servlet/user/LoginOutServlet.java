@@ -18,7 +18,7 @@ public class LoginOutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        session.invalidate();
+        session.invalidate();//销毁session
 
         response.sendRedirect(request.getContextPath()+"/jsp/Login.jsp");
 
