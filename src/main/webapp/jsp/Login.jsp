@@ -24,7 +24,7 @@
     <header class="layui-elip">后台登录</header>
     <form class="layui-form" action="${pageContext.request.contextPath}/loginServlet" method="post">
         <div class="layui-input-inline">
-          <label>${errorMsg}</label>
+          <label style="color: red">${errorMsg}</label>
         </div>
         <div class="layui-input-inline">
             <input type="text" name="loginName" required lay-verify="required" placeholder="用户名" autocomplete="off"

@@ -174,8 +174,8 @@ public class UserDao extends BaseDao {
      * @param userId
      * @return
      */
-    public int stopAccount(String userId) {
-        String sql = "UPDATE sys_user SET status=1 WHERE user_id=?";
-        return  baseExecuteUpdate(sql,userId);
+    public int stopAccount(String userId,Integer status) {
+        String sql = "UPDATE sys_user SET status=? WHERE user_id=?";
+        return  baseExecuteUpdate(sql,status,userId);
     }
 }

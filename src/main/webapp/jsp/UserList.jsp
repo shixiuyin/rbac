@@ -171,7 +171,7 @@
                     }, {
                     field: 'userId',
                     title: 'ID',
-                    width: 200
+                    width: 50
                 }, {
                     field: 'loginName',
                     title: '登录名',
@@ -196,7 +196,7 @@
                 },{
                     field: 'remark',
                     title: '备注',
-                    width: 70
+                    width: 220
                 }, {
                     fixed: 'right',
                     title: '操作',
@@ -329,24 +329,46 @@
                     }
 
                     //开启ajax请求 禁用
-                    $.get("${pageContext.request.contextPath}/stopAccountServlet?userId="+data.userId,function (reslut) {
-
-
+                    $.get("${pageContext.request.contextPath}/stopOrStartAccountServlet?option=stop&userId="+data.userId,function (reslut) {
                         if(reslut>0)
                         {
-                            obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                            //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                             tableIns.reload(); //重载数据
                             /*obj.update({
                                 status: 1
                             });*/
                         }
-
                     });
-
                     layer.close(index);
                     //向服务端发送删除指令
                 });
-            } else if(layEvent === 'editRole'){ //编辑
+            } else if (layEvent == 'start') {
+
+                layer.confirm('确定启用该账号么？', function(index){
+
+                    if(data.status==0)
+                    {
+                        layer.msg("该用户已经被启用！！！")
+                        return;
+                    }
+
+                    //开启ajax请求 禁用
+                    $.get("${pageContext.request.contextPath}/stopOrStartAccountServlet?option=start&userId="+data.userId,function (reslut) {
+                        if(reslut>0)
+                        {
+                            //obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                            tableIns.reload(); //重载数据
+                            /*obj.update({
+                                status: 1
+                            });*/
+                        }
+                    });
+                    layer.close(index);
+                    //向服务端发送删除指令
+                });
+
+            }
+            else if (layEvent === 'editRole') { //编辑
 
                 //修改页面id:editRole_form
 
@@ -434,9 +456,15 @@
 </script>
 <!-- 表格操作按钮集 -->
 <script type="text/html" id="barOption">
-    <a class="layui-btn layui-btn-mini" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="stop">停用</a>
-    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="editRole">分配角色</a>
+    <a class="layui-btn layui-btn-mini layui-bg-blue" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-mini layui-bg-green" lay-event="editRole">分配角色</a>
+    {{# if(d.status==0){ }}
+    <a class="layui-btn layui-btn-mini  layui-btn-norma layui-bg-red" lay-event="stop">停用</a>
+    {{# }else { }}
+    <a class="layui-btn layui-btn-mini layui-btn-norma" lay-event="start">启用</a>
+    {{#  } }}
+
+
 </script>
 
 <%--转换状态--%>

@@ -51,21 +51,33 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             }else
             {
 
-                //补缺user 信息，统计在线用户
-                String sessionId =  session.getId()==null?"":session.getId();
+                //判断用户是否激活
+                if (user.getStatus()!=0)
+                {
 
-                String ip = request.getRemoteAddr();
-                String logintime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                    errorMsg = "当前用户名尚未激活，请联系管理员!!!";
+                    session.setAttribute("errorMsg",errorMsg);
+                    //用户名或者密码错误
+                    response.sendRedirect(request.getContextPath()+"/jsp/Login.jsp");
 
-                user.setSessionId(sessionId);
-                user.setIp(ip);
-                user.setLoginTime(logintime);
+                }else {
 
-                //登录成功  保存到域对象中
-                session.setAttribute("userInfo",user);
-                session.removeAttribute("errorMsg");
-                //重定向到主界面
-                response.sendRedirect(request.getContextPath()+"/index.jsp");
+                    //补缺user 信息，统计在线用户
+                    String sessionId = session.getId() == null ? "" : session.getId();
+
+                    String ip = request.getRemoteAddr();
+                    String logintime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+                    user.setSessionId(sessionId);
+                    user.setIp(ip);
+                    user.setLoginTime(logintime);
+
+                    //登录成功  保存到域对象中
+                    session.setAttribute("userInfo", user);
+                    session.removeAttribute("errorMsg");
+                    //重定向到主界面
+                    response.sendRedirect(request.getContextPath() + "/index.jsp");
+                }
             }
 
         }
