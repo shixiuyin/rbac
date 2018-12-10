@@ -13,7 +13,7 @@ public class BaseDao {
             Class.forName("com.mysql.jdbc.Driver");
 
             //2.获取连接
-            String url = "jdbc:mysql://localhost:3306/rbac?characterEncoding=utf8&useSSL=true";
+            String url = "jdbc:mysql://192.168.2.105:3306/rbac?characterEncoding=utf8&useSSL=true";
             String name = "root";
             String pwd = "root";
             Connection connection = DriverManager.getConnection(url, name, pwd);

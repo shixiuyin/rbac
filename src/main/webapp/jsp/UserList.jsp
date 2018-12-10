@@ -171,19 +171,19 @@
                     }, {
                     field: 'userId',
                     title: 'ID',
-                    width: 50
+                    width: 80
                 }, {
                     field: 'loginName',
                     title: '登录名',
-                    width: 120
+                    width: 160
                 }, {
                     field: 'userName',
                     title: '用户名',
-                    width: 120
+                    width: 160
                 }, {
                     field: 'email',
                     title: '邮箱',
-                    width: 150
+                    width: 200
                 }, {
                     field: 'address',
                     title: '地址',
@@ -196,11 +196,11 @@
                 },{
                     field: 'remark',
                     title: '备注',
-                    width: 220
+                    width: 200
                 }, {
                     fixed: 'right',
                     title: '操作',
-                    width: 180,
+                    width: 200,
                     align: 'right',
                     toolbar: '#barOption'
                 } //这里的toolbar值是模板元素的选择器
@@ -253,11 +253,41 @@
         $("#submit_add").on('click',function () {
 
             //alert("----");
-            $.post("${pageContext.request.contextPath}/addUserServletAjax",$("#adduser_form").serialize(),function (reslut) {
+            /* $.post("
+
+
+
+            ${pageContext.request.contextPath}/addUserServletAjax",$("#adduser_form").serialize(),function (reslut) {
 
                 layer.msg(reslut);
 
+            });*/
+            $("#adduser_form").submit(function () {
+
+                var flag = false;
+
+                $.post("${pageContext.request.contextPath}/addUserServletAjax", $("#adduser_form").serialize(), function (reslut) {
+
+                    // layer.msg(reslut,);
+                    if (reslut == 1) {
+                        layer.msg("添加成功");
+                        layer.closeAll();
+                        flag = true;
+                    }
+                    else {
+                        if (flag != null) {
+                            layer.msg("添加失败，请检查!!");
+                        }
+                        flag = false;
+                    }
+                });
+
+                return flag;
+
+
             });
+
+
         });
 
 
